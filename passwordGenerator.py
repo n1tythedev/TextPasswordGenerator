@@ -1,21 +1,24 @@
-import random
 import minimodules
+import secrets
 #First, we need to make a random symbol
 def randomSymb(isSC):
     LettersNormal = "a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 1 2 3 4 5 6 7 8 9 0".split()
     LettersSC = "a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 1 2 3 4 5 6 7 8 9 0 ! @ # $ % ^ & * ( ) - _ = + ` ~ , . < > / ? ; : ' [ ] { } ".split()
-    if (isSC):
-        return LettersSC[random.randint(0, len(LettersSC) -1)]
+    if isSC:
+        return secrets.choice(LettersSC)
     else:
-        return LettersNormal[random.randint(0, len(LettersNormal) -1)]
+        return secrets.choice(LettersNormal)
 #then we gonna need to ask user how long do he wants the  password
 def InputSys():
     resp= input("How long the password should be?")    
     while True:
-        if  minimodules.NumberCheck(resp):
-            break
+        
+        if  minimodules.IntCheck(resp):
+            if int(resp) >= 1:
+                break
         else:
             print("Please provide a number!")
+            resp= input("How long the password should be?") 
     lengthofpassword= int(resp)
     isSCT = False
     resp = input("""Do you want Special Characters($,#, @...)?
@@ -36,7 +39,7 @@ For example '#8lf:>$=u;mk51=@$%&'.
 def passwordGenFunc(lengthofpass,  isSCS):
     password = ""
     for i in range(lengthofpass):
-        password = f"{password}{randomSymb(isSCS)}"
+        password += randomSymb(isSCS)
     return password
 #Main Cycle!
 def Main():
@@ -48,5 +51,5 @@ If no, then type something for example ' ' would work,
 and 'apple' would work too.""")
         if resp == "":
             break
-minimodules.InitializationOfApp("Password Generator", "1.0")
+minimodules.InitializationOfApp("Password Generator", "1.0.2")
 Main()
